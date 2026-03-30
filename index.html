@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Seven Gates | The Fallen Forest — Kingdom Break</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #141C27;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Cinema', 'Cinematografica', 'Inter', system-ui, 'Poppins', 'Segoe UI', sans-serif;
+      padding: 4.25rem 0 0;
+      margin: 0;
+      transition: background 0.3s ease;
+    }
+
+    .anim-item {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      will-change: opacity, transform;
+    }
+
+    .anim-item.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== FIXED NAVBAR ========== */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      background: rgba(8, 12, 20, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 230, 150, 0.25);
+      box-shadow: 0 9px 25px rgba(0, 0, 0, 0.4);
+      min-height: 72px;
+      height: auto;
+    }
+
+    .nav-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 1.4rem;
+      gap: 1.2rem;
+      min-height: 72px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+      height: 100%;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      line-height: 1;
+    }
+
+    .logo {
+      color: #f3d18f;
+      font-weight: 900;
+      font-size: 1.3rem;
+      text-decoration: none;
+      letter-spacing: 0.1rem;
+      text-transform: uppercase;
+      transition: opacity 0.2s ease;
+    }
+
+    .logo:hover {
+      opacity: 0.85;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      background: rgba(222, 168, 70, 0.25);
+      color: #f3d18f;
+      transform: translateY(-1px);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      background: transparent;
+      gap: 5px;
+      padding: 0.5rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .nav-toggle:hover {
+      background: rgba(222, 168, 70, 0.15);
+    }
+
+    .nav-toggle span {
+      width: 26px;
+      height: 2px;
+      background: #f3d18f;
+      border-radius: 3px;
+      transition: transform 0.25s ease, width 0.2s ease;
+    }
+
+    @media (max-width: 900px) {
+      .nav-toggle {
+        display: flex;
+      }
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        right: 1rem;
+        left: 1rem;
+        background: rgba(10, 15, 24, 0.98);
+        backdrop-filter: blur(14px);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.85rem 0.5rem;
+        border-radius: 20px;
+        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
+        transform-origin: top;
+        transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.25s ease;
+        transform: scaleY(0);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 998;
+        gap: 0.2rem;
+        border: 1px solid rgba(255, 215, 130, 0.3);
+      }
+      .nav-links.open {
+        transform: scaleY(1);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .nav-links li {
+        width: 100%;
+        margin: 0.1rem 0;
+      }
+      .nav-links a {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        margin: 0;
+        text-align: center;
+        font-size: 1rem;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.3);
+        white-space: normal;
+      }
+      .nav-links a:hover {
+        background: rgba(222, 168, 70, 0.3);
+      }
+    }
+
+    /* ========== TRAILER SECTION ========== */
+    .trailer-section {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto 2rem auto;
+      padding: 0 1.2rem;
+    }
+
+    .trailer-container {
+      backdrop-filter: blur(2px);
+      border-radius: 28px;
+      padding: 1.5rem;
+    }
+
+    .overview-section {
+      width: 100%;
+      background: #0d1a2b;
+      padding: 2.5rem 0 3rem;
+      border-bottom: 1px solid rgba(225, 188, 93, 0.2);
+    }
+
+    .overview-inner {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 1.2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: stretch;
+      color: #f1ead1;
+    }
+
+    .overview-content,
+    .overview-image {
+      min-height: 100%;
+    }
+
+    .overview-image {
+      width: 100%;
+      min-height: 100%;
+      border: 1px solid rgba(227, 194, 108, 0.35);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: stretch;
+      animation: floatIn 1s ease forwards;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .overview-image.in-view,
+    .overview-section.in-view .overview-image {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .overview-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      min-height: 100%;
+    }
+
+    .overview-image img:hover {
+      transform: scale(1.04) rotate(0.01deg);
+    }
+
+    .overview-image {
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 22px 45px rgba(255,201,94,0.22), inset 0 0 15px rgba(255,225,155,0.18); }
+      50% { box-shadow: 0 28px 55px rgba(255,201,94,0.34), inset 0 0 20px rgba(255,225,155,0.25); }
+    }
+
+    @keyframes floatIn {
+      0% { opacity: 0; transform: translateY(24px) scale(0.98); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .overview-content h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      letter-spacing: 0.24rem;
+      text-transform: uppercase;
+      color: #e0a46f;
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      border-bottom: 1px solid rgba(225, 188, 93, 0.3);
+      padding-bottom: 0.6rem;
+    }
+
+    .overview-content {
+      background: linear-gradient(180deg, rgba(5, 11, 19, 0.9), rgba(16, 26, 42, 0.87));
+      border: 1px solid rgba(220, 180, 85, 0.3);
+      border-radius: 14px;
+      padding: 1.7rem;
+      line-height: 1.6;
+      font-size: 1rem;
+      color: #fdf9ea;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.38);
+      text-align: justify;
+      font-family: 'Inter', 'Poppins', system-ui, sans-serif;
+      letter-spacing: 0.01em;
+    }
+
+    .overview-content p {
+      margin-bottom: 0.95rem;
+    }
+
+    @media (max-width: 960px) {
+      .overview-inner {
+        grid-template-columns: 1fr;
+      }
+      .overview-content h2 {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+      }
+      .overview-image {
+        min-height: 420px;
+      }
+      .overview-image img {
+        max-height: none;
+      }
+    }
+
+    /* HERO TOP SECTION */
+    .hero-top,
+    .overview-section,
+    .trailer-section,
+    .heroes-section,
+    .intro-section,
+    .carousel-wrapper {
+      width: 100%;
+      min-height: calc(100vh - 72px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .hero-top {
+      background: linear-gradient(rgba(5, 9, 17, 0.65), rgba(5, 9, 17, 0.65)), url('header.png') center/cover no-repeat;
+      text-align: center;
+      position: relative;
+      padding: 4rem 1rem;
+      border-bottom: 1px solid rgba(255, 220, 140, 0.18);
+    }
+
+    .hero-top::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.72));
+      pointer-events: none;
+    }
+
+    .hero-top .hero-content {
+      position: relative;
+      max-width: 900px;
+      width: 100%;
+      color: white;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .hero-top h1 {
+      margin: 0;
+      font-size: clamp(2rem, 8vw, 4rem);
+      letter-spacing: 0.2rem;
+      text-transform: uppercase;
+      font-weight: 900;
+      color: #e5b25b;
+      text-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-top p {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(1rem, 2.1vw, 1.25rem);
+      line-height: 1.45;
+      max-width: 760px;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.55);
+    }
+
+    .hero-top .download-btn {
+      margin-top: 1.2rem;
+      display: inline-block;
+      background: linear-gradient(135deg, #d0a452, #f4d587);
+      color: #1a1a1a;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 800;
+      padding: 0.95rem 1.8rem;
+      border-radius: 999px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 230, 170, 0.8);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    }
+
+    .hero-top .download-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+      filter: brightness(1.03);
+    }
+
+    @media (max-width: 780px) {
+      .hero-top {
+        padding: 3rem 0.8rem;
+        min-height: auto;
+      }
+      .hero-top h1 {
+        font-size: clamp(1.8rem, 8vw, 2.8rem);
+      }
+      .hero-top p {
+        font-size: 0.95rem;
+      }
+    }
+
+    .trailer-title {
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .trailer-title h3 {
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: 6px;
+      background: linear-gradient(135deg, #f2e0b0, #e2bc7c, #c89d4b);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(200, 160, 70, 0.4);
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(230, 190, 110, 0.5), 0 25px 40px -12px rgba(200, 170, 80, 0.7), 0 0 30px rgba(220, 180, 80, 0.45);
+      transition: box-shadow 0.4s ease;
+      cursor: pointer;
+      background: #000;
+    }
+
+    .video-wrapper:hover {
+      box-shadow: 0 0 0 2px rgba(240, 200, 100, 0.7), 0 30px 50px -10px rgba(220, 180, 80, 0.9), 0 0 45px rgba(230, 190, 90, 0.6);
+    }
+
+    #trailerVideo {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #0a0a0a;
+    }
+
+    .play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .play-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .play-btn {
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at 30% 25%, rgba(245, 215, 120, 0.95), rgba(200, 150, 60, 0.9));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 0 0 8px rgba(220, 180, 80, 0.4), 0 0 0 12px rgba(200, 160, 70, 0.2), 0 15px 35px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 235, 170, 0.9);
+    }
+
+    .play-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 0 10px rgba(240, 200, 90, 0.6), 0 0 0 16px rgba(220, 180, 70, 0.35), 0 20px 40px black;
+    }
+
+    .play-btn svg {
+      width: 48px;
+      height: 48px;
+      margin-left: 6px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+
+    @media (max-width: 720px) {
+      .play-btn {
+        width: 70px;
+        height: 70px;
+      }
+      .play-btn svg {
+        width: 32px;
+        height: 32px;
+      }
+      .trailer-container {
+        padding: 1rem;
+      }
+    }
+
+    .carousel-wrapper {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      backdrop-filter: none;
+      padding: 2rem 1.2rem 2rem 1.2rem;
+      box-shadow: none;
+      border: none;
+      border-radius: 0px;
+    }
+
+    /* HEROES SECTION — VERTICAL ON MOBILE, GRID ON DESKTOP */
+    .heroes-section {
+      width: 100%;
+      background: #0b1626;
+      color: #f9d57a;
+      padding: 2rem 0 2.5rem;
+      border-top: 1px solid rgba(232, 170, 106, 0.2);
+      border-bottom: 1px solid rgba(232, 170, 106, 0.2);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .heroes-inner {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-items: center;
+      align-items: center;
+      padding: 0 1.2rem;
+    }
+
+    .heroes-inner h2 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      color: #d09d4a;
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
+      margin: 0;
+      font-weight: 900;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .heroes-inner p {
+      margin: 0;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08rem;
+      text-transform: uppercase;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    }
+
+    .heroes-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1.5rem;
+      justify-items: center;
+      align-items: stretch;
+    }
+
+    /* Mobile: vertical stacking for character cards */
+    @media (max-width: 780px) {
+      .heroes-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        max-width: 420px;
+        margin: 0 auto;
+      }
+      .hero-card {
+        max-width: 380px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .flip-inner {
+        aspect-ratio: 2 / 3;
+      }
+    }
+
+    .hero-card {
+      width: 100%;
+      max-width: 220px;
+      background: transparent;
+      perspective: 1400px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .hero-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      text-align: center;
+      transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+      transform-style: preserve-3d;
+      border-radius: 16px;
+    }
+
+    .hero-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .card-front {
+      box-shadow: none;
+      border: none;
+      outline: none;
+      background: transparent;
+    }
+    
+    .card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 16px;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.45);
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .hero-card:hover .card-front img {
+      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .card-back {
+      background: linear-gradient(145deg, #1a2a2f 0%, #0f1a1f 100%);
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      text-align: center;
+      font-family: inherit;
+      border-radius: 16px;
+      border: 2px solid rgba(220, 180, 90, 0.9);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5), inset 0 0 8px rgba(230, 200, 100, 0.2);
+    }
+
+    .hero-name {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #f3d382;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.3rem;
+      border-bottom: 1px solid #dbb05c;
+      display: inline-block;
+      padding-bottom: 4px;
+    }
+
+    .hero-role {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      background: #2c2b1f;
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      color: #e9c27c;
+      margin: 0.4rem 0;
+      letter-spacing: 1px;
+    }
+
+    .special-skill {
+      background: #00000066;
+      backdrop-filter: blur(4px);
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      border-radius: 20px;
+      font-weight: bold;
+      color: #ffe3aa;
+      font-size: 0.8rem;
+    }
+
+    .special-skill span {
+      color: #f5bc70;
+      font-size: 0.65rem;
+      letter-spacing: 1px;
+      display: block;
+      font-weight: 600;
+    }
+
+    .stat-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+
+    .stat-item {
+      background: #00000055;
+      border-radius: 12px;
+      padding: 0.3rem 0;
+      font-size: 0.65rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #efdba1;
+    }
+
+    .stat-value {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: white;
+      display: block;
+      letter-spacing: 1px;
+    }
+
+    .flip-hint {
+      font-size: 0.55rem;
+      margin-top: 0.6rem;
+      color: #b89a5c;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* INTRO SECTION unchanged */
+    .intro-section {
+      width: 100%;
+      background: #ffffff;
+      margin: 0 0 2rem 0;
+      padding: 0;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .intro-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    .intro-heading {
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 3px solid #c89d4b;
+      padding-bottom: 1rem;
+    }
+
+    .intro-heading h2 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: #1a2a3a;
+      letter-spacing: 0.15rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .intro-side-layout {
+      display: flex;
+      gap: 2.5rem;
+      align-items: stretch;
+    }
+
+    .intro-image {
+      flex: 0 0 380px;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .intro-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 15px 30px -8px rgba(200, 160, 80, 0.5), 0 0 0 1px rgba(200, 170, 90, 0.3), 0 0 25px rgba(200, 160, 70, 0.25);
+    }
+
+    .intro-text-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .intro-text-side p {
+      line-height: 1.65;
+      color: #2c3e2f;
+      font-size: 0.98rem;
+      margin: 0;
+      text-align: justify;
+    }
+
+    .class-features {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+    }
+
+    .class-features h3 {
+      color: #c89d4b;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .class-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .class-item {
+      background: #f8f4ec;
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #2c3e2f;
+      text-align: center;
+      border: 1px solid #e0d0b8;
+    }
+
+    .intro-quote-side {
+      background: #f5efe3;
+      padding: 1rem 1.5rem;
+      border-left: 4px solid #c89d4b;
+      font-style: italic;
+      color: #4a3a28;
+      font-weight: 500;
+      border-radius: 0 8px 8px 0;
+    }
+
+    @media (max-width: 980px) {
+      .intro-side-layout {
+        flex-direction: column;
+      }
+      .intro-image {
+        flex: 0 0 auto;
+        max-height: 380px;
+      }
+      .intro-image img {
+        height: auto;
+        max-height: 380px;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .intro-container {
+        padding: 1.5rem;
+      }
+      .intro-text-side p {
+        font-size: 0.9rem;
+      }
+      .class-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* CAROUSEL STYLES - HOVER EFFECT REMOVED */
+    .title-section {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .title-section h1 {
+      font-size: clamp(2rem, 8vw, 4.8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #f2e0b0, #c89d4b, #7a5c2a);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+      letter-spacing: 10px;
+    }
+
+    .title-section p {
+      color: #bc8f4b;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-weight: 300;
+      border-top: 1px dashed rgba(200, 160, 90, 0.4);
+      display: inline-block;
+      padding-top: 0.6rem;
+      margin-top: 0.4rem;
+    }
+
+    .stacked-carousel {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 540px;
+      margin: 0.2rem 0;
+    }
+
+    .cards-stack {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      height: 520px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .stack-card {
+      position: absolute;
+      width: 70%;
+      max-width: 700px;
+      left: 50%;
+      transform-origin: center;
+      transition: all 0.55s cubic-bezier(0.2, 0.95, 0.4, 1.05);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      will-change: transform, opacity, z-index;
+      border: none;
+      background: transparent;
+      overflow: visible;
+    }
+
+    /* HOVER EFFECT COMPLETELY REMOVED - no hover styles for stack cards */
+    .stack-card:not(.active):hover {
+      /* No hover effect - removed completely */
+    }
+
+    .img-wrapper {
+      position: relative;
+      width: 100%;
+      box-shadow: 0 15px 30px -8px rgba(200, 160, 70, 0.45), 0 0 0 1px rgba(210, 170, 90, 0.25);
+      transition: box-shadow 0.3s ease;
+      background: #0c0a07;
+    }
+
+    .stack-card.active .img-wrapper {
+      box-shadow: 0 25px 40px -12px rgba(200, 170, 80, 0.6), 0 0 0 1px rgba(230, 200, 120, 0.4), 0 0 25px rgba(200, 160, 70, 0.35);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 470px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, #000000dd, #000000aa, transparent);
+      padding: 1.6rem 1.8rem 1.4rem;
+      backdrop-filter: blur(3px);
+      text-align: left;
+      pointer-events: none;
+    }
+
+    .gate-number {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      color: #e6c48b;
+      text-transform: uppercase;
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+    }
+
+    .gate-name {
+      font-size: clamp(1.3rem, 4vw, 2.1rem);
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #faeec2;
+      text-shadow: 0 1px 5px #1f1406;
+      border-left: 3px solid #dbb05c;
+      padding-left: 1rem;
+      margin-top: 0.1rem;
+    }
+
+    .gate-sub {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: #dcc48e;
+      margin-top: 0.3rem;
+      letter-spacing: 1.2px;
+      font-weight: 300;
+    }
+
+    .stack-card {
+      transition: transform 0.35s ease, opacity 0.35s ease;
+      will-change: transform, opacity;
+    }
+
+    .stack-card.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 30;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .stack-card.active:hover {
+      transform: translateX(-50%) scale(1);
+    }
+
+    .stack-card.prev-1, .stack-card.next-1 {
+      opacity: 0.98;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 22;
+      cursor: pointer;
+    }
+    .stack-card.prev-1 { transform: translateX(-50%) translateX(-38%) translateY(10px) scale(0.82); }
+    .stack-card.next-1 { transform: translateX(-50%) translateX(38%) translateY(10px) scale(0.82); }
+    .stack-card.prev-2, .stack-card.next-2 {
+      opacity: 0.82;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 16;
+      cursor: pointer;
+    }
+    .stack-card.prev-2 { transform: translateX(-50%) translateX(-56%) translateY(24px) scale(0.71); }
+    .stack-card.next-2 { transform: translateX(-50%) translateX(56%) translateY(24px) scale(0.71); }
+    .stack-card.prev-3, .stack-card.next-3 {
+      opacity: 0.58;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 10;
+      cursor: pointer;
+    }
+    .stack-card.prev-3 { transform: translateX(-50%) translateX(-70%) translateY(38px) scale(0.62); }
+    .stack-card.next-3 { transform: translateX(-50%) translateX(70%) translateY(38px) scale(0.62); }
+    .stack-card.hidden-far { opacity: 0; visibility: hidden; pointer-events: none; transform: translateX(-50%) scale(0.5); }
+
+    .stack-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.9rem;
+      margin-top: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    .dot-stack {
+      width: 10px;
+      height: 10px;
+      background: #4f3f2b;
+      cursor: pointer;
+      transition: all 0.25s;
+      border: none;
+      border-radius: 0px;
+    }
+
+    .dot-stack.active-dot {
+      width: 36px;
+      background: #e2bc7c;
+      box-shadow: 0 0 8px #f3cd8a;
+    }
+
+    .swipe-hint {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      color: #8a7048;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+
+    /* Improved Mobile Styles for Carousel */
+    @media (max-width: 640px) {
+      .cards-stack { height: 380px; }
+      .card-img { height: 320px; }
+      .stack-card { width: 85%; }
+      .stack-card.prev-1 { transform: translateX(-50%) translateX(-28%) translateY(6px) scale(0.82); }
+      .stack-card.next-1 { transform: translateX(-50%) translateX(28%) translateY(6px) scale(0.82); }
+      .stack-card.prev-2 { transform: translateX(-50%) translateX(-48%) translateY(16px) scale(0.70); }
+      .stack-card.next-2 { transform: translateX(-50%) translateX(48%) translateY(16px) scale(0.70); }
+      .gate-name { font-size: 0.9rem; }
+      .gate-number { font-size: 0.65rem; }
+      .card-caption { padding: 1rem 1.2rem; }
+      .stack-dots { gap: 0.7rem; margin-top: 1rem; }
+      .dot-stack { width: 8px; height: 8px; }
+      .dot-stack.active-dot { width: 28px; }
+    }
+
+    /* Extra small devices */
+    @media (max-width: 480px) {
+      .cards-stack { height: 340px; }
+      .card-img { height: 280px; }
+      .stack-card { width: 88%; }
+      .stack-card.prev-1 { transform: translateX(-50%) translateX(-24%) translateY(4px) scale(0.80); }
+      .stack-card.next-1 { transform: translateX(-50%) translateX(24%) translateY(4px) scale(0.80); }
+      .gate-name { font-size: 0.8rem; }
+    }
+
+    .site-footer {
+      width: 100%;
+      background: #02162f;
+      color: #f7f2dc;
+      border-top: 1px solid rgba(255, 215, 160, 0.12);
+      margin-top: 2rem;
+      padding: 0;
+    }
+
+    .footer-content {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(160px, 1fr));
+      gap: 2rem;
+      justify-items: start;
+      align-items: start;
+      text-transform: uppercase;
+      font-weight: 400;
+      letter-spacing: 0.08rem;
+      padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .footer-brand h2,
+    .footer-content h3 {
+      margin-bottom: 0.95rem;
+      font-size: 1.4rem;
+      color: #f0c96f;
+      letter-spacing: 1.8px;
+      font-weight: 700;
+    }
+
+    .footer-brand p {
+      margin: 0;
+      color: #fbf7e2;
+      font-size: 0.85rem;
+      letter-spacing: 0.2rem;
+      font-weight: 300;
+      max-width: 18rem;
+    }
+
+    .footer-links ul,
+    .footer-social ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .footer-links a,
+    .footer-social a {
+      text-decoration: none;
+      color: #fff;
+      transition: color 0.2s ease, transform 0.2s ease;
+      font-size: 0.87rem;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover,
+    .footer-social a:hover {
+      color: #f9d68f;
+      transform: translateX(2px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      font-size: 0.74rem;
+      color: rgba(245, 231, 198, 0.72);
+      letter-spacing: 0.1rem;
+      padding: 1rem 1.5rem 1.5rem;
+      border-top: 1px solid rgba(255, 215, 160, 0.08);
+    }
+
+    @media (max-width: 900px) {
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+        justify-items: center;
+      }
+      .footer-brand p { text-align: center; }
+      .footer-links ul, .footer-social ul { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Primary">
+  <div class="nav-inner">
+    <a class="logo" href="#heroTop">Kingdom Break</a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#heroTop">Download</a></li>
+      <li><a href="#overviewSection">Game Overview</a></li>
+      <li><a href="#trailerSection">Trailer</a></li>
+      <li><a href="#heroesSection">Heroes</a></li>
+      <li><a href="#storiesSection">Stories</a></li>
+      <li><a href="#gatesSection">Gates</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO SECTION, OVERVIEW, TRAILER ETC REMAIN UNCHANGED IN MARKUP -->
+<section class="hero-top anim-item" id="heroTop">
+  <div class="hero-content">
+    <h1>Kingdom Break</h1>
+    <p>Kingdom break is a cooperative multiplayer adventure game where players work together to overcome challenges, defeat enemies, and progress through multiple stages toward a final confrontation. The game emphasizes teamwork, strategy, and coordination as players must rely on each other's unique abilities to survive and succeed.</p>
+    <a href="https://example.com/download" class="download-btn" target="_blank" rel="noopener noreferrer">Download for free</a>
+  </div>
+</section>
+
+<section class="overview-section anim-item" id="overviewSection">
+  <div class="overview-inner">
+    <div class="overview-content anim-item">
+      <h2>GAME OVERVIEW</h2>
+      <p>Kingdom break is a cooperative multiplayer adventure game where players work together to overcome challenges, defeat enemies, and progress through multiple stages toward a final confrontation. The game emphasizes teamwork, strategy, and coordination as players must rely on each other's unique abilities to survive and succeed.</p>
+      <p>In Kingdom break, players can choose from five distinct character classes: the Princess, Assassin, Knight, Sorcerer, and Priest. Each class has its own specialized skills and roles within the team. The Knight serves as the frontline defender, the Assassin excels in stealth and high-damage attacks, the Sorcerer uses powerful magic to control and eliminate enemies, the Priest supports the team through healing, and the Princess provides balanced abilities that can adapt to different situations.</p>
+      <p>Players must battle waves of enemies, solve puzzles, and complete stage objectives to become stronger and unlock access to new areas. Cooperation is essential, as many obstacles and encounters require coordinated actions and proper use of each class's abilities.</p>
+      <p>"United we stand, divided we fall — the Abyss shall shatter before our bond." The ultimate goal of the game is to reach and defeat the final boss. However, survival is a shared responsibility—if all players are defeated at any point, the game ends. This creates a high-stakes, engaging experience that rewards teamwork, communication, and strategic planning.</p>
+    </div>
+    <div class="overview-image">
+      <img src="Poster.png" alt="Kingdom Break Poster" loading="lazy" onerror="this.src='https://picsum.photos/id/104/700/900'">
+    </div>
+  </div>
+</section>
+
+<section class="trailer-section anim-item" id="trailerSection">
+  <div class="trailer-container anim-item">
+    <div class="trailer-title">
+      <h3>✦ TRAILER ✦</h3>
+    </div>
+    <div class="video-wrapper" id="videoWrapper">
+      <video id="trailerVideo" src="teaser.mp4" preload="metadata"></video>
+      <div class="play-overlay" id="playOverlay">
+        <div class="play-btn" id="playBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 5v14l11-7z" fill="#1f1a0e" stroke="#ffeaac" stroke-width="0.8"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="heroes-section anim-item" id="heroesSection">
+  <div class="heroes-inner">
+    <h2>YOUR HEROES</h2>
+    <p>CHOOSE THE RIGHT HERO FOR YOU!</p>
+    <div class="heroes-grid" id="heroesGrid"></div>
+  </div>
+</section>
+
+<section class="intro-section anim-item" id="storiesSection">
+  <div class="intro-container">
+    <div class="intro-heading">
+      <h2>THE KINGDOM OF AETHERFALL</h2>
+    </div>
+    <div class="intro-side-layout">
+      <div class="intro-image">
+        <img src="Poster1.png" alt="Kingdom Break Poster" loading="lazy" onerror="this.src='https://picsum.photos/id/104/400/500'">
+      </div>
+      <div class="intro-text-side">
+        <p>Kingdom Break is a cooperative multiplayer adventure game where players work together to overcome challenges, defeat enemies, and progress through multiple stages toward a final confrontation. The game emphasizes teamwork, strategy, and coordination as players must rely on each other's unique abilities to survive and succeed.</p>
+        <p>In Kingdom Break, players can choose from five distinct character classes: the Princess, Assassin, Knight, Sorcerer, and Priest. Each class has its own specialized skills and roles within the team. The Knight serves as the frontline defender, the Assassin excels in stealth and high-damage attacks, the Sorcerer uses powerful magic to control and eliminate enemies, the Priest supports the team through healing, and the Princess provides balanced abilities that can adapt to different situations.</p>
+        <div class="class-features">
+          <h3>✦ PLAYABLE CLASSES ✦</h3>
+          <div class="class-grid">
+            <div class="class-item">KNIGHT</div>
+            <div class="class-item">ASSASSIN</div>
+            <div class="class-item">SORCERER</div>
+            <div class="class-item">PRIEST</div>
+            <div class="class-item">PRINCESS</div>
+          </div>
+        </div>
+        <p>Players must battle waves of enemies, solve puzzles, and complete stage objectives to become stronger and unlock access to new areas. Cooperation is essential, as many obstacles and encounters require coordinated actions and proper use of each class's abilities.</p>
+        <div class="intro-quote-side">
+          ✦ "United we stand, divided we fall — the Abyss shall shatter before our bond." ✦
+        </div>
+        <p>The ultimate goal of the game is to reach and defeat the final boss. However, survival is a shared responsibility—if all players are defeated at any point, the game ends. This creates a high-stakes, engaging experience that rewards teamwork, communication, and strategic planning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="carousel-wrapper anim-item" id="gatesSection">
+  <div class="title-section">
+    <h1>SEVEN GATES</h1>
+    <p>⟡ THE FALLEN FOREST ⟡</p>
+  </div>
+  <div class="stacked-carousel">
+    <div class="cards-stack" id="cardsStackContainer"></div>
+  </div>
+  <div class="stack-dots" id="stackDotsContainer"></div>
+  <div class="swipe-hint">←  click or swipe edges  →</div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-brand">
+      <h2>KINGDOM BREAK</h2>
+      <p>A COOPERATIVE MULTIPLAYER ADVENTURE GAME</p>
+    </div>
+    <div class="footer-links">
+      <h3>QUICK LINKS</h3>
+      <ul>
+        <li><a href="#">OVERVIEW</a></li>
+        <li><a href="#">TRAILER</a></li>
+        <li><a href="#">CLASSES</a></li>
+        <li><a href="#">STORY</a></li>
+        <li><a href="#">GATES</a></li>
+      </ul>
+    </div>
+    <div class="footer-social">
+      <h3>FOLLOW US</h3>
+      <ul>
+        <li><a href="#">YOUTUBE</a></li>
+        <li><a href="#">FACEBOOK</a></li>
+        <li><a href="#">INSTAGRAM</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Kingdom Break. All Rights Reserved.</div>
+</footer>
+
+<script>
+  // Trailer logic (unchanged)
+  const video = document.getElementById('trailerVideo');
+  const overlay = document.getElementById('playOverlay');
+  const playBtn = document.getElementById('playBtn');
+
+  function playTrailer() { video.play(); overlay.classList.add('hidden'); }
+  function pauseTrailer() { if (!video.paused) { video.pause(); overlay.classList.remove('hidden'); } }
+  playBtn.addEventListener('click', (e) => { e.stopPropagation(); playTrailer(); });
+  overlay.addEventListener('click', (e) => { if (e.target === overlay || playBtn.contains(e.target)) playTrailer(); });
+  video.addEventListener('ended', () => overlay.classList.remove('hidden'));
+  video.addEventListener('click', (e) => { e.stopPropagation(); video.paused ? playTrailer() : pauseTrailer(); });
+
+  // Heroes data
+  const heroes = [
+    { name: "PRINCESS", role: "close range · dps", special: "Whirlwind Sword", img: "PrincessCard.png", stats: { def: 7, attack: 14, mana: 60, speed: 6 } },
+    { name: "ASSASSIN", role: "close range · dps", special: "Kill", img: "AssasinCard.png", stats: { def: 2, attack: 18, mana: 50, speed: 8 } },
+    { name: "PRIEST", role: "ranged · healer", special: "Healing", img: "PriestCard.png", stats: { def: 4, attack: 8, mana: 120, speed: 5 } },
+    { name: "SORCERER", role: "ranged · dps", special: "Kill", img: "SorcererCard.png", stats: { def: 0, attack: 22, mana: 150, speed: 4 } },
+    { name: "KNIGHT", role: "close range · tank", special: "Shield", img: "KnightCard.png", stats: { def: 12, attack: 8, mana: 40, speed: 3 } }
+  ];
+  const heroesGrid = document.getElementById('heroesGrid');
+  function buildHeroCards() {
+    heroesGrid.innerHTML = '';
+    heroes.forEach((hero) => {
+      const cardContainer = document.createElement('div'); cardContainer.className = 'hero-card';
+      cardContainer.addEventListener('click', (e) => { e.stopPropagation(); cardContainer.classList.toggle('flipped'); });
+      const flipInner = document.createElement('div'); flipInner.className = 'flip-inner';
+      const frontDiv = document.createElement('div'); frontDiv.className = 'card-front';
+      const img = document.createElement('img'); img.src = hero.img; img.alt = hero.name; img.onerror = function() { this.src = 'https://picsum.photos/id/100/400/600'; };
+      frontDiv.appendChild(img);
+      const backDiv = document.createElement('div'); backDiv.className = 'card-back';
+      backDiv.innerHTML = `<div class="hero-name">${hero.name}</div><div class="hero-role">${hero.role}</div><div class="special-skill">⚡ SPECIAL: ${hero.special} ⚡<span>✦ signature ability ✦</span></div><div class="stat-grid"><div class="stat-item">DEFENSE <span class="stat-value">${hero.stats.def}</span></div><div class="stat-item">N.ATTACK <span class="stat-value">${hero.stats.attack}</span></div><div class="stat-item">MANA <span class="stat-value">${hero.stats.mana}</span></div><div class="stat-item">SPEED <span class="stat-value">${hero.stats.speed}</span></div></div><div class="flip-hint">⟳ click to flip back</div>`;
+      flipInner.appendChild(frontDiv); flipInner.appendChild(backDiv); cardContainer.appendChild(flipInner); heroesGrid.appendChild(cardContainer);
+    });
+  }
+  buildHeroCards();
+
+  // Carousel data
+  const gatesData = [
+    { number: "GATE I", name: "WHISPERING WOODS", sub: "Where brambles whisper ancient vows", imgUrl: "TheWhisperingWoods(Stage1).png" },
+    { number: "GATE II", name: "OVERGROWN LIBRARY", sub: "Remembrance of the first pyre", imgUrl: "The Overgrown Library of Ages(Stage2).png" },
+    { number: "GATE III", name: "SUNKEN CITADEL OF CERENETIY", sub: "The silence of millennial sleep", imgUrl: "Sunken Citadel of Serenity(Stage3).png" },
+    { number: "GATE IV", name: "CLOCKWORK FORGE OF VULCANOS", sub: "Where time decays into gold", imgUrl: "Clockwork Forge of Vulcanos(Stage4).png" },
+    { number: "GATE V", name: "FROZEN ECHO TUNDRA", sub: "Deep anchors of the fallen", imgUrl: "Frozen Echo Tundra(Stage5).png" },
+    { number: "GATE VI", name: "SKYBOUND NOMAD FLEET", sub: "Unbound fury of forgotten gods", imgUrl: "Skybound Nomad Fleet(Stage 6).png" },
+    { number: "GATE VII", name: "CELESTIAL RIFT", sub: "The last threshold before oblivion", imgUrl: "The Celestial Rift(FinalStage).png" }
+  ];
+  let currentIdx = 0; const totalCards = gatesData.length;
+  let autoInterval = null; const AUTO_DELAY = 6000;
+  const container = document.getElementById('cardsStackContainer');
+  const dotsContainer = document.getElementById('stackDotsContainer');
+
+  function getStackClass(index, activeIndex) {
+    let distance = (index - activeIndex + totalCards) % totalCards;
+    if (distance > totalCards / 2) distance = distance - totalCards;
+    if (distance === 0) return 'active';
+    if (distance === -1) return 'prev-1'; if (distance === -2) return 'prev-2'; if (distance === -3) return 'prev-3';
+    if (distance === 1) return 'next-1'; if (distance === 2) return 'next-2'; if (distance === 3) return 'next-3';
+    return 'hidden-far';
+  }
+  function renderStack() { if (!container) return; container.innerHTML = '';
+    gatesData.forEach((gate, idx) => { const cardDiv = document.createElement('div'); const stackClass = getStackClass(idx, currentIdx); cardDiv.className = `stack-card ${stackClass}`;
+      const imgWrapper = document.createElement('div'); imgWrapper.className = 'img-wrapper';
+      const img = document.createElement('img'); img.src = gate.imgUrl; img.alt = gate.name; img.classList.add('card-img'); imgWrapper.appendChild(img);
+      const captionDiv = document.createElement('div'); captionDiv.className = 'card-caption';
+      captionDiv.innerHTML = `<div class="gate-number">${gate.number}</div><div class="gate-name">${gate.name}</div><div class="gate-sub">${gate.sub}</div>`;
+      cardDiv.appendChild(imgWrapper); cardDiv.appendChild(captionDiv);
+      cardDiv.addEventListener('click', (e) => { e.stopPropagation(); let cls = cardDiv.className;
+        if (cls.includes('active')) return;
+        if (cls.includes('prev-1')) goToSlide((currentIdx - 1 + totalCards) % totalCards);
+        else if (cls.includes('prev-2')) goToSlide((currentIdx - 2 + totalCards) % totalCards);
+        else if (cls.includes('prev-3')) goToSlide((currentIdx - 3 + totalCards) % totalCards);
+        else if (cls.includes('next-1')) goToSlide((currentIdx + 1) % totalCards);
+        else if (cls.includes('next-2')) goToSlide((currentIdx + 2) % totalCards);
+        else if (cls.includes('next-3')) goToSlide((currentIdx + 3) % totalCards);
+        resetAutoplay();
+      });
+      container.appendChild(cardDiv);
+    }); updateDots();
+  }
+  function updateDots() { const dots = document.querySelectorAll('.dot-stack'); dots.forEach((dot, i) => { if (i === currentIdx) dot.classList.add('active-dot'); else dot.classList.remove('active-dot'); }); }
+  function createDots() { if (!dotsContainer) return; dotsContainer.innerHTML = '';
+    for (let i = 0; i < totalCards; i++) { const dot = document.createElement('button'); dot.classList.add('dot-stack'); if (i === currentIdx) dot.classList.add('active-dot'); dot.setAttribute('data-index', i); dot.addEventListener('click', (e) => { e.stopPropagation(); goToSlide(i); resetAutoplay(); }); dotsContainer.appendChild(dot); } }
+  function goToSlide(newIndex) { if (newIndex === currentIdx) return; currentIdx = (newIndex + totalCards) % totalCards; renderStack(); }
+  function nextSlide() { goToSlide((currentIdx + 1) % totalCards); resetAutoplay(); }
+  function prevSlide() { goToSlide((currentIdx - 1 + totalCards) % totalCards); resetAutoplay(); }
+  function startAutoplay() { if (autoInterval) clearInterval(autoInterval); autoInterval = setInterval(() => nextSlide(), AUTO_DELAY); }
+  function resetAutoplay() { if (autoInterval) { clearInterval(autoInterval); autoInterval = null; } startAutoplay(); }
+  function stopAutoplay() { if (autoInterval) { clearInterval(autoInterval); autoInterval = null; } }
+  const carouselZone = document.querySelector('.stacked-carousel'); if (carouselZone) { carouselZone.addEventListener('mouseenter', () => stopAutoplay()); carouselZone.addEventListener('mouseleave', () => startAutoplay()); }
+  let touchStartX = 0, touchEndX = 0, mouseDownX = 0, isSwiping = false;
+  function handleTouchStart(e) { touchStartX = e.changedTouches[0].screenX; }
+  function handleTouchEnd(e) { touchEndX = e.changedTouches[0].screenX; const delta = touchEndX - touchStartX; if (Math.abs(delta) > 40) { if (delta > 0) prevSlide(); else nextSlide(); resetAutoplay(); } }
+  function handleMouseDown(e) { isSwiping = true; mouseDownX = e.clientX; e.preventDefault(); }
+  function handleMouseUp(e) { if (!isSwiping) return; const deltaX = e.clientX - mouseDownX; if (Math.abs(deltaX) > 45) { if (deltaX > 0) prevSlide(); else nextSlide(); resetAutoplay(); } isSwiping = false; }
+  const stackContainerElem = document.querySelector('.cards-stack'); if (stackContainerElem) { stackContainerElem.addEventListener('touchstart', handleTouchStart, { passive: true }); stackContainerElem.addEventListener('touchend', handleTouchEnd); stackContainerElem.addEventListener('mousedown', handleMouseDown); window.addEventListener('mouseup', handleMouseUp); }
+  window.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') { prevSlide(); resetAutoplay(); e.preventDefault(); } else if (e.key === 'ArrowRight') { nextSlide(); resetAutoplay(); e.preventDefault(); } });
+  createDots(); renderStack(); startAutoplay();
+  let resizeTimer; window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => renderStack(), 120); });
+  let imagesLoaded = 0; function onImageLoad() { imagesLoaded++; if (imagesLoaded === totalCards) renderStack(); }
+  gatesData.forEach(gate => { const tempImg = new Image(); tempImg.src = gate.imgUrl; if (tempImg.complete) onImageLoad(); else tempImg.addEventListener('load', onImageLoad); tempImg.addEventListener('error', onImageLoad); });
+
+  // Navbar Toggle (Fixed)
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', (!expanded).toString());
+      navLinks.classList.toggle('open');
+    });
+  }
+  document.querySelectorAll('.nav-links a').forEach((link) => { link.addEventListener('click', () => { if (navLinks) navLinks.classList.remove('open'); if (navToggle) navToggle.setAttribute('aria-expanded', 'false'); }); });
+
+  const observer = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('in-view'); }); }, { threshold: 0.2 });
+  document.querySelectorAll('.anim-item').forEach((el) => observer.observe(el));
+</script>
+</body>
+</html>
